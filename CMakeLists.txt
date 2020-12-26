@@ -13,15 +13,13 @@ endif()
 
 set(SRCS
     "libraries/Wire/Wire.cpp"
-    "libraries/Storage/ctrl_access.c"
-    "libraries/Storage/sd_mmc.c"
-    "libraries/Storage/sd_mmc_mem.c"
-    "libraries/Storage/sd_mmc_spi.c"
-    "libraries/SharedSpi/SharedSpi.cpp"
     "libraries/Flash/DueFlashStorage.cpp"
     "cores/arduino/USB/USBSerial.cpp"
     "cores/arduino/AnalogIn.cpp"
     "cores/arduino/AnalogOut.cpp"
+    "cores/arduino/Cache.cpp"
+    "cores/arduino/Core.cpp"
+    "cores/arduino/Flash.cpp"
     "cores/arduino/Print.cpp"
     "cores/arduino/Reset.cpp"
     "cores/arduino/RingBuffer.cpp"
@@ -34,10 +32,8 @@ set(SRCS
     "cores/arduino/hooks.c"
     "cores/arduino/itoa.c"
     "cores/arduino/new.cpp"
-    "cores/arduino/watchdog.cpp"
     "cores/arduino/wiring.c"
     "cores/arduino/wiring_digital.cpp"
-    "asf/sam/services/flash_efc/flash_efc.c"
     "asf/sam/drivers/wdt/wdt.c"
     "asf/sam/drivers/usart/usart.c"
     "asf/sam/drivers/uart/uart.c"
@@ -105,7 +101,3 @@ target_compile_definitions(CoreNG PRIVATE "-DUDD_ENABLE" "-DUDD_NO_SLEEP_MGR")
 
 # Link flags to propagate to RepRapFirmware
 target_link_libraries(CoreNG INTERFACE "-Wl,--entry=Reset_Handler")
-add_library(syscalls_obj OBJECT "cores/arduino/syscalls.c")
-target_include_directories(syscalls_obj PRIVATE ${INCLUDE_DIRS})
-target_link_libraries(CoreNG INTERFACE "$<TARGET_OBJECTS:syscalls_obj>")
-add_dependencies(CoreNG syscalls_obj)
